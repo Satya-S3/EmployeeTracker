@@ -18,15 +18,20 @@ function Login(){
       const [error,setError]=useState(null);
       const navigate=useNavigate();
       axios.defaults.withCredentials=true;
+
       const handelSubmit=(e)=>{
             e.preventDefault();
             axios.post("http://localhost:3000/auth/adminlogin", values)
             .then(result=> {
-                  if(result.data.loginStatus) navigate('/dashboard')
+                  if(result.data.loginStatus){ 
+                        localStorage.setItem("Valid",true)
+                        navigate('/dashboard')
+                  }
                   else setError(result.data.error)    
             })
             .catch(error=> console.log(error));
       }
+      
       return <>
             <div className="container1" style={bg}>
                   <div className="box">
@@ -34,15 +39,13 @@ function Login(){
                         <form onSubmit={handelSubmit}>
                               <p>{error}</p>
                               <div>
-                                    <p>Demo: SatyaSwarup</p>
                                     <label htmlFor="name">USER NAME</label>
-                                    <input autoComplete="Username" name="name" type="text" placeholder="UserName" className="form-control"
+                                    <input autoComplete="Username" name="name" type="text" placeholder="SatyaSwarup" className="form-control"
                                     onChange={(e)=>{setValues({...values,email : e.target.value})}}/>
                               </div>
                               <div>
-                                    <p>12345</p>
                                     <label htmlFor="pass">PASSWORD</label>
-                                    <input autoComplete="current-password" name="pass" type="password" placeholder="Password" className="form-control"
+                                    <input autoComplete="current-password" name="pass" type="password" placeholder="12345" className="form-control"
                                     onChange={(e)=>{setValues({...values,password : e.target.value})}}/>
                               </div>
                               <button className="btn btn-success w-50">SUBMIT</button>

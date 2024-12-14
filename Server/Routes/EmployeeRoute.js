@@ -16,7 +16,7 @@ router.post('/employeeLogin', (req, res) => {
                         if (err) return res.json({ loginStatus: false, Error: "Wrong Password" })
                         if (response) {
                               const email = result[0].email;
-                              const token = jwt.sign({ role: "employee", email: email }, "secret_Key123", { expiresIn: "1d" })
+                              const token = jwt.sign({ role: "employee", email: email ,id:result[0].id}, "secret_Key123", { expiresIn: "1d" })
                               res.cookie('token', token)
                               return res.json({ loginStatus: true ,id:result[0].id})
                         } else {

@@ -8,7 +8,8 @@ function Sidebar() {
             axios.get("http://localhost:3000/auth/logout")
                   .then(result => {
                         if (result.data.Status) {
-                              navigate('/adminLogin')
+                              localStorage.removeItem("Valid")
+                              navigate('/')
                         } else {
                               alert(result.data.Error);
                         }

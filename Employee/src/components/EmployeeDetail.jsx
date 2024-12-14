@@ -20,6 +20,7 @@ function EmployeeDetail() {
             axios.get("http://localhost:3000/employee/logout")
                   .then(result => {
                         if (result.data.Status) {
+                              localStorage.removeItem("Valid")
                               navigate('/')
                         } else {
                               alert(result.data.Error);

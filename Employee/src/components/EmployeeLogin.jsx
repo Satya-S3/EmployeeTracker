@@ -22,7 +22,10 @@ function EmployeeLogin() {
             e.preventDefault();
             axios.post("http://localhost:3000/employee/employeeLogin", values)
             .then(result=> {
-                  if(result.data.loginStatus) navigate('/employeeDetail/'+result.data.id)
+                  if(result.data.loginStatus){ 
+                        localStorage.setItem("Valid",true)
+                        navigate('/employeeDetail/'+result.data.id)
+                  }
                   else setError(result.data.error)    
             })
             .catch(error=> console.log(error));
@@ -35,15 +38,13 @@ function EmployeeLogin() {
                         <form onSubmit={handelSubmit}>
                               <p>{error}</p>
                               <div>
-                                    <p>Demo : Rahul</p>
                                     <label htmlFor="name">USER NAME</label>
-                                    <input autoComplete="Username" name="name" type="text" placeholder="UserName" className="form-control"
+                                    <input autoComplete="Username" name="name" type="text" placeholder="Rahul" className="form-control"
                                           onChange={(e) => { setValues({ ...values, email: e.target.value }) }} />
                               </div>
                               <div>
-                                    <p>Demo : 12345</p>
                                     <label htmlFor="pass">PASSWORD</label>
-                                    <input autoComplete="current-password" name="pass" type="password" placeholder="Password" className="form-control"
+                                    <input autoComplete="current-password" name="pass" type="password" placeholder="12345" className="form-control"
                                           onChange={(e) => { setValues({ ...values, password: e.target.value }) }} />
                               </div>
                               <button className="btn btn-success w-50">SUBMIT</button>
