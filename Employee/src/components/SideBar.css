@@ -1,0 +1,48 @@
+*{
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+}
+
+.open{
+      position: absolute;
+      top: 0;
+      width: 160px;
+      background: linear-gradient(45deg,rgb(118, 116, 116),rgb(0, 0, 0),black);
+      height: 100vh;
+      overflow: hidden;
+
+      ul{
+            list-style: none;
+            text-decoration: none;
+            margin: 40px 0px;
+            padding: 0;
+            
+            li{
+                  font-size: 20px;
+                  font-weight: 700;
+                  padding: 30px 20px;
+                  
+                  a{
+                        color: rgb(159, 157, 157);
+                        text-decoration: none;
+
+                        &:hover{
+                              color: white;
+                        }
+                  }
+                  
+            }
+      }
+}
+.toggle{
+      width: 50px;
+      z-index: 9;
+      position: absolute;
+      top: 10px;
+      left: 10px;
+}
+.close{
+      transition: all 0.3s ease;
+      transform: translate(-150px);
+}

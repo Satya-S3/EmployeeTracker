@@ -39,7 +39,7 @@ function EmployeeLogin() {
                               <p>{error}</p>
                               <div>
                                     <label htmlFor="name">USER NAME</label>
-                                    <input autoComplete="Username" name="name" type="text" placeholder="Rahul" className="form-control"
+                                    <input autoComplete="Username" name="name" type="text" placeholder="Satya" className="form-control"
                                           onChange={(e) => { setValues({ ...values, email: e.target.value }) }} />
                               </div>
                               <div>
@@ -49,7 +49,7 @@ function EmployeeLogin() {
                               </div>
                               <button className="btn btn-success w-50">SUBMIT</button>
                               <div className="tick">
-                                    <input name="tick" type="checkbox" id="tick" />
+                                    <input name="tick" type="checkbox" id="tick" required />
                                     <label htmlFor="tick">Are you agree with Terms & Conditions</label>
                               </div>
                         </form>

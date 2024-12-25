@@ -50,7 +50,7 @@ function Login(){
                               </div>
                               <button className="btn btn-success w-50">SUBMIT</button>
                               <div className="tick">
-                                    <input name="tick" type="checkbox" id="tick"/>
+                                    <input name="tick" type="checkbox" id="tick" required/>
                                     <label htmlFor="tick">Are you agree with Terms & Conditions</label>
                               </div>
                         </form>

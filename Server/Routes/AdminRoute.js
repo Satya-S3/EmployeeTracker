@@ -12,7 +12,7 @@ router.post('/adminlogin', (req, res) => {
             if (err) return res.json({ loginStatus: false, Error: "Query Error" })
             if (result.length > 0) {
                   const email = result[0].email;
-                  const token = jwt.sign({ role: "admin", email: email ,id:result[0].id}, "secret_Key123", { expiresIn: "1d" })
+                  const token = jwt.sign({ role: "admin", email: email, id: result[0].id }, "secret_Key123", { expiresIn: "1d" })
                   res.cookie('token', token)
                   return res.json({ loginStatus: true })
             } else {
@@ -36,19 +36,19 @@ router.post('/AddCategory', (req, res) => {
       })
 })
 // image upload
-const storage=multer.diskStorage({
-      destination:(req,file,cb)=>{
-            cb(null,'Public/Images')
+const storage = multer.diskStorage({
+      destination: (req, file, cb) => {
+            cb(null, 'Public/Images')
       },
-      filename:(req,file,cb)=>{
-            cb(null,file.fieldname+ "_" +Date.now()+path.extname(file.originalname))
+      filename: (req, file, cb) => {
+            cb(null, file.fieldname + "_" + Date.now() + path.extname(file.originalname))
       }
 })
-const upload=multer({
-      storage:storage
+const upload = multer({
+      storage: storage
 })
 
-router.post('/AddEmployee',upload.single('image'), (req, res) => {
+router.post('/AddEmployee', upload.single('image'), (req, res) => {
       if (!req.body.password) {
             return res.json({ Status: false, Error: "Password is required" });
       }
@@ -84,9 +84,9 @@ router.get('/employee', (req, res) => {
       })
 })
 router.get('/employee/:id', (req, res) => {
-      const id=req.params.id;
+      const id = req.params.id;
       const sql = "SELECT * FROM employee WHERE id = ?"
-      connection.query(sql,[id], (err, result) => {
+      connection.query(sql, [id], (err, result) => {
             if (err) return res.json({ Status: false, Error: "Query Error" })
             return res.json({ Status: true, Result: result })
       })
@@ -94,27 +94,27 @@ router.get('/employee/:id', (req, res) => {
 
 router.put('/EditEmployee/:id', (req, res) => {
 
-      const id=req.params.id;
+      const id = req.params.id;
       const sql = "UPDATE employee set firstName=? , lastName=? ,salary=? , address=?, categoryId=? WHERE id=?"
-            const values = [
-                  req.body.firstName,
-                  req.body.lastName,
-                  req.body.salary,
-                  req.body.address,
-                  req.body.categoryId,
-            ];
+      const values = [
+            req.body.firstName,
+            req.body.lastName,
+            req.body.salary,
+            req.body.address,
+            req.body.categoryId,
+      ];
 
-            connection.query(sql, [...values,id], (err, result) => {
-                  if (err) {
-                        return res.json({ Status: false, Error: "EDIT EMPLOYEE" })
-                  };
-                  return res.json({ Status: true });
-            });
+      connection.query(sql, [...values, id], (err, result) => {
+            if (err) {
+                  return res.json({ Status: false, Error: "EDIT EMPLOYEE" })
+            };
+            return res.json({ Status: true });
+      });
 });
 
 
 router.delete('/deleteEmployee/:id', (req, res) => {
-      const id=req.params.id;
+      const id = req.params.id;
       const sql = "DELETE from employee WHERE id = ?"
       connection.query(sql, [id], (err, result) => {
             if (err) {
@@ -147,7 +147,7 @@ router.get('/totalSalary', (req, res) => {
 })
 router.get('/logout', (req, res) => {
       res.clearCookie('token');
-      return res.json({Status:true});
+      return res.json({ Status: true });
 })
 router.get('/getAdmin', (req, res) => {
       const sql = "SELECT * from login"
@@ -156,5 +156,17 @@ router.get('/getAdmin', (req, res) => {
             return res.json({ Status: true, Result: result })
       })
 })
+
+router.delete('/deleteAdmin/:id', (req, res) => {
+      const id = req.params.id;
+      const sql = "DELETE FROM login WHERE id = ?";
+      connection.query(sql, [id], (err, result) => {
+        if (err) {
+          console.error("error happens 2");
+          return res.json({ Status: false, Error: err.message });
+        }
+        return res.json({ Status: true });
+      });
+    });
 
 export { router as adminrouter };

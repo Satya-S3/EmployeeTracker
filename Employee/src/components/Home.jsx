@@ -1,8 +1,11 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import "./Home.css";
+import { RiAdminFill } from "react-icons/ri";
+import { FaPeopleGroup } from "react-icons/fa6";
+import { GrMoney } from "react-icons/gr";
 
 function Home() {
-
     const [admin, setAdmin] = useState();
     const [employee, setEmployee] = useState();
     const [salary, setSalary] = useState();
@@ -18,7 +21,7 @@ function Home() {
                 }
             })
             .catch(err => {
-                console.log(err);
+                console.log("Error fetching admin count:", err);
             });
         axios.get("http://localhost:3000/auth/countEmployee")
             .then(result => {
@@ -29,7 +32,7 @@ function Home() {
                 }
             })
             .catch(err => {
-                console.log(err);
+                console.log("Error fetching employee count:", err);
             });
         axios.get("http://localhost:3000/auth/totalSalary")
             .then(result => {
@@ -40,7 +43,7 @@ function Home() {
                 }
             })
             .catch(err => {
-                console.log(err);
+                console.log("Error fetching total salary:", err);
             });
         axios.get("http://localhost:3000/auth/getAdmin")
             .then(result => {
@@ -51,55 +54,57 @@ function Home() {
                 }
             })
             .catch(err => {
-                console.log(err);
+                console.log("Error fetching admin details:", err);
             });
-
-
     }, []);
 
-    return <>
-        <div className="container2 d-flex flex-wrap">
-            <div className="box2 shadow">
-                <h2>ADMIN</h2>
-                <hr />
-                <h2> TOTAL: {admin}</h2>
-            </div>
-            <div className="box2 shadow">
-                <h2>EMPLOYEE</h2>
-                <hr />
-                <h2>TOTAL: {employee}</h2>
-            </div>
-            <div className="box2 shadow">
-                <h2>TOTAL SALARY</h2>
-                <hr />
-                <h2>TOTAL: {salary}</h2>
-            </div>
-        </div>
-        <center id="admin">ADMIN</center>
-        <div className="container">
-            <table className="table text-center p-3 shadow">
-                <thead className="table-dark">
-                    <tr>
-                        <th>SL.NO</th>
-                        <th>USER ID</th>
-                        <th>ACTION</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {allAdmin.map((res, index) => (
-                        <tr className="align-middle">
-                            <td>{index+1}</td>
-                            <td>{res.username}</td>
-                            <td>
-                                <button className="btn btn-danger">DELETE</button>
-                            </td>
-                        </tr>
-                    ))}
+    const handleDelete = (id) => {
+        axios.delete(`http://localhost:3000/auth/deleteAdmin/${id}`)
+            .then(result => {
+                console.log(result.data);
+                if (result.data.Status) {
+                    setAllAdmin(prevAdmins => prevAdmins.filter(admin => admin.id !== id));
+                } else {
+                    alert(result.data.Error);
+                }
+            })
+            .catch(err => {
+                console.log("Error deleting admin:", err);
+            });
+    };
 
-                </tbody>
-            </table>
-        </div>
-    </>
+    return (
+        <>
+            <div className="container2">
+                <div>
+                    <RiAdminFill className="icon admin" />
+                    <h1>ADMIN</h1>
+                    <p>{admin}</p>
+                </div>
+                <div>
+                    <FaPeopleGroup className="icon employee" />
+                    <h1>EMPLOYEE</h1>
+                    <p>{employee}</p>
+                </div>
+                <div>
+                    <GrMoney className="icon salary" />
+                    <h1>SALARY</h1>
+                    <p>{salary}</p>
+                </div>
+            </div>
+            <h2 id="admin">ADMIN DETAILS</h2>
+            <div className="below">
+                <div>
+                    {allAdmin.map((res, index) => (
+                        <div key={index} className="align-middle details">
+                            <p>{res.username}</p>
+                            <button className="btn btn-danger" onClick={() => handleDelete(res.id)}>DELETE</button>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </>
+    );
 }
 
 export default Home;
